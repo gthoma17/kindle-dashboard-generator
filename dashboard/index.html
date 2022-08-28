@@ -25,19 +25,18 @@
 			<hr />
 			<div>
 				<div id="last-update-container">
-					Last updated at:  
+					Last updated on   
 					<span id="last-update-time"/>
-					 MST
 					<script>
 						function startTime() {
-							const now = new Date().toLocaleString("en-US", {timeZone: "America/Denver"});
+							const dateFormatOptions = {
+								timeZone: "America/Denver", 
+								dateStyle: "full", 
+								timeStyle: "short"
+							}
+							const now = ew Date().toLocaleString("en-US", dateFormatOptions);
 							document.getElementById('last-update-time').innerHTML = now
 							setTimeout(startTime, 1000);
-						}
-
-						function padTime(i) {
-							if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-							return i;
 						}
 					</script>
 				</div>

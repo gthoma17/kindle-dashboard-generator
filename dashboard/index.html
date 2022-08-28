@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<style type="text/css">
+			#container {
+				display: flex;
+				flex-direction: column;
+				height: 800px;
+				width: 600px;
+			}
+		</style>
+	</head>		
+	<body onload="startTime()">
+		<div id="container">
+			<div>
+				<iframe 
+					src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23f5f5f5&ctz=America%2FDenver&showNav=0&showPrint=0&showTabs=0&mode=AGENDA&title=%20&showTitle=0&showTz=0&src=cGVuMjM0NTY3OEBnbWFpbC5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%239E69AF&color=%239E69AF" 
+					style="
+						border:solid 1px #777;
+					" 
+					width="300" 
+					height="600" 
+					frameborder="0" 
+					scrolling="no"></iframe>
+			</div>
+			<hr />
+			<div>
+				<div id="last-update-container">
+					Last updated at:  
+					<span id="last-update-time"/>
+					 MST
+					<script>
+						function startTime() {
+							const now = new Date().toLocaleString("en-US", {timeZone: "America/Denver"});
+							document.getElementById('last-update-time').innerHTML = now
+							setTimeout(startTime, 1000);
+						}
+
+						function padTime(i) {
+							if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+							return i;
+						}
+					</script>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

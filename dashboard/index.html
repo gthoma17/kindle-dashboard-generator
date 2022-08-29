@@ -8,7 +8,8 @@
 				display: flex;
 				flex-direction: column;
 				height: 800px;
-				width: 600px;	
+				width: 600px;
+				overflow: hidden;
 			}
 			#date-time-container {
 					padding: 5px;
@@ -19,6 +20,44 @@
 			#weather-container {
 				min-height: 192px;
 				max-height: 192px;
+			}
+			#agenda {
+				display: grid;
+				grid-template-columns: 50px 275px 275px;
+			}
+			#agenda > div {
+				text-align: center;
+				display: flex;
+				align-items: center;
+  				justify-content: space-around;
+  				flex-direction: column;
+			}
+			.event-name {
+				font-size: x-large;
+			}
+			.event-time {
+				font-family:courier, courier new, monospace;
+			}
+			.agenda-header {
+				font-weight: bold;
+			}
+
+			.time-column {
+				grid-column: 1;
+				line-height: 1.5;
+			}
+			.reva-event {
+				grid-column: 2;
+				background-color: lightsteelblue;
+			}
+			.greg-event {
+				grid-column: 3;
+				background-color: lightseagreen;
+			}
+			.shared-event {
+				grid-column-start: 2;
+				grid-column-end: 4;
+				background-color: lightpink;
 			}
 		</style>
 		<script>
@@ -53,16 +92,49 @@
 					<div id="ww_8caa7863a9c52" v='1.20' loc='id' a='{"t":"responsive","lang":"en","ids":["wl3359"],"cl_bkg":"#FFFFFF","cl_font":"#000000","cl_cloud":"#d4d4d4","cl_persp":"#2196F3","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","sl_tof":"5","sl_sot":"celsius","sl_ics":"one","font":"Arial","cl_odd":"#0000000a"}'>Weather Data Source: <a href="https://sharpweather.com/es/tiempo_lakewood/" id="ww_8caa7863a9c52_u" target="_blank">sharpweather.com</a></div><script async src="https://srv1.weatherwidget.org/js/?id=ww_8caa7863a9c52"></script>
 				</div>
 				<div id="agenda-container">
-					<iframe 
-						id="calendar-iframe"
-						src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23f5f5f5&ctz=America%2FDenver&showNav=0&showPrint=0&showTabs=0&mode=AGENDA&title=%20&showTitle=0&showTz=0&src=cGVuMjM0NTY3OEBnbWFpbC5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%239E69AF&color=%239E69AF" 
-						style="
-							border:solid 1px #777;
-						" 
-						width="600" 
-						height="700" 
-						frameborder="0" 
-						scrolling="no"></iframe>
+					<div id="agenda">
+
+						<div class="agenda-header time-column"><span>Time</span></div>
+						<div class="agenda-header" style="grid-column: 2"><span>Reva</span></div>
+						<div class="agenda-header" style="grid-column: 3"><span>Greg</span></div>
+
+						<div class="time-column">9:30</div>
+						<div class="time-column">10:00</div>
+						<div class="time-column">10:30</div>
+						<div class="time-column">11:00</div>
+						<div class="time-column">11:30</div>
+						<div class="time-column">12:00</div>
+						<div class="time-column">12:30</div>
+						<div class="time-column">1:00</div>
+						<div class="time-column">1:30</div>
+						<div class="time-column">2:00</div>
+						<div class="time-column">2:30</div>
+						<div class="time-column">3:00</div>
+						<div class="time-column">3:30</div>
+						<div class="time-column">4:00</div>
+						<div class="time-column">4:30</div>
+
+						<div class="shared-event" style="grid-row-start: 6; grid-row-end: 8">
+							<span class="event-name">Lunch</span><br/>
+							<span class="event-time">11:00 - 12:00</span>
+						</div>
+						<div class="reva-event" style="grid-row-start: 2; grid-row-end: 6">
+							<span class="event-name">Basic Costume</span>
+							<span class="event-time">9:00 - 11:00</span>
+						</div>
+						<div class="reva-event" style="grid-row-start: 15; grid-row-end: 16">
+							<span class="event-name">Jewelry Making</span>
+							<span class="event-time">4:00 - 9:00</span>
+						</div>
+						<div class="greg-event" style="grid-row-start: 2; grid-row-end: 6">
+							<span class="event-name">Work</span>
+							<span class="event-time">8:30 - 11:00</span>
+						</div>
+						<div class="greg-event" style="grid-row-start: 8; grid-row-end: 15">
+							<span class="event-name">Work</span>
+							<span class="event-time">12:00 - 4:00</span>
+						</div>
+					</div>
 				</div>
 			<hr />
 		</div>

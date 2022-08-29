@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd /app/kindle-dashboard-generator
+cd /app
 git pull
 docker build -t dash-builder .

@@ -17,8 +17,8 @@
 				    font-size: xxx-large;
 			}
 			#weather-container {
-				min-height: 228px;
-				max-height: 228px;
+				min-height: 192px;
+				max-height: 192px;
 			}
 		</style>
 		<script>
@@ -28,7 +28,6 @@
 				}
 				setTime(tz)
 				setDate(tz)
-				setWeather()
 			}
 			function setTime(tz){
 				const time = new Date().toLocaleString("en-US", {...tz, timeStyle: "short"});
@@ -37,16 +36,6 @@
 			function setDate(tz){
 				const date = new Date().toLocaleString("en-US", {...tz, dateStyle: "full"});
 				document.getElementById('date').innerHTML = date
-			}
-			function setWeather(){
-				!function(d,s,id){
-					var js,fjs=d.getElementsByTagName(s)[0];
-					if(!d.getElementById(id)){
-						js=d.createElement(s);
-						js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';
-						fjs.parentNode.insertBefore(js,fjs);
-					}
-				}(document,'script','weatherwidget-io-js');
 			}
 
 		</script>
@@ -61,9 +50,9 @@
 				</div>
 			<hr />
 				<div id="weather-container">
-					<a class="weatherwidget-io" href="https://forecast7.com/en/39d74n105d07/80214/" data-label_1="You look great! 😉" data-days="5" data-theme="beige" data-basecolor="#fff" data-accent="" data-textcolor="#000" data-highcolor="#000" data-lowcolor="#000" data-suncolor="#000" data-mooncolor="#000" data-cloudcolor="#000" data-cloudfill="#000" data-raincolor="#000" data-snowcolor="#000" >You look great! 😉</a>
+					<div id="ww_8caa7863a9c52" v='1.20' loc='id' a='{"t":"responsive","lang":"en","ids":["wl3359"],"cl_bkg":"#FFFFFF","cl_font":"#000000","cl_cloud":"#d4d4d4","cl_persp":"#2196F3","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","sl_tof":"5","sl_sot":"celsius","sl_ics":"one","font":"Arial","cl_odd":"#0000000a"}'>Weather Data Source: <a href="https://sharpweather.com/es/tiempo_lakewood/" id="ww_8caa7863a9c52_u" target="_blank">sharpweather.com</a></div><script async src="https://srv1.weatherwidget.org/js/?id=ww_8caa7863a9c52"></script>
 				</div>
-				<div>
+				<div id="agenda-container">
 					<iframe 
 						id="calendar-iframe"
 						src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23f5f5f5&ctz=America%2FDenver&showNav=0&showPrint=0&showTabs=0&mode=AGENDA&title=%20&showTitle=0&showTz=0&src=cGVuMjM0NTY3OEBnbWFpbC5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%239E69AF&color=%239E69AF" 

@@ -13,9 +13,9 @@ const URL = "http://localhost:8000";
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
-  page.on('console', (msg) => console.log(msg.text());
-
   const page = await browser.newPage();
+
+  page.on('console', (msg) => console.log(msg.text()));
 
   /* Kindle 4 NT resolution */
   await page.setViewport({ width: 600, height: 800 });

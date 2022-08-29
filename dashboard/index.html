@@ -6,13 +6,42 @@
 				flex-direction: column;
 				height: 800px;
 				width: 600px;
+				border: 5px solid red
+			}
+			#last-update-container{
+					padding: 5px;
+				    text-align: center;
+				    margin-top: 15px;
+				    font-size: x-large;
 			}
 		</style>
+		<script>
+			function setTime(){
+				const dateFormatOptions = {
+					timeZone: "America/Denver", 
+					dateStyle: "full", 
+					timeStyle: "short"
+				}
+				const now = new Date().toLocaleString("en-US", dateFormatOptions);
+				document.getElementById('last-update-time').innerHTML = now
+			}
+		</script>
 	</head>		
-	<body onload="startTime()">
+	<body onload="setTime()">
 		<div id="container">
+			<div id="last-update-container">
+				Last updated on   
+				<span id="last-update-time"/>
+				<script>
+					function startTime() {
+						
+					}
+				</script>
+			</div>
+			<hr />
 			<div>
 				<iframe 
+					id="calendar-iframe"
 					src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23f5f5f5&ctz=America%2FDenver&showNav=0&showPrint=0&showTabs=0&mode=AGENDA&title=%20&showTitle=0&showTz=0&src=cGVuMjM0NTY3OEBnbWFpbC5jb20&src=ZW4udXNhI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%239E69AF&color=%239E69AF" 
 					style="
 						border:solid 1px #777;
@@ -23,24 +52,6 @@
 					scrolling="no"></iframe>
 			</div>
 			<hr />
-			<div>
-				<div id="last-update-container">
-					Last updated on   
-					<span id="last-update-time"/>
-					<script>
-						function startTime() {
-							const dateFormatOptions = {
-								timeZone: "America/Denver", 
-								dateStyle: "full", 
-								timeStyle: "short"
-							}
-							const now = ew Date().toLocaleString("en-US", dateFormatOptions);
-							document.getElementById('last-update-time').innerHTML = now
-							setTimeout(startTime, 1000);
-						}
-					</script>
-				</div>
-			</div>
 		</div>
 	</body>
 </html>

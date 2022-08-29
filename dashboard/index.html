@@ -10,11 +10,11 @@
 				height: 800px;
 				width: 600px;	
 			}
-			#last-update-container {
+			#date-time-container {
 					padding: 5px;
 				    text-align: center;
 				    margin-top: 15px;
-				    font-size: xx-large;
+				    font-size: xxx-large;
 			}
 			#weather-container {
 				min-height: 228px;
@@ -22,34 +22,46 @@
 			}
 		</style>
 		<script>
-			function setTime(){
-				const dateFormatOptions = {
+			function setup(){
+				const tz = {
 					timeZone: "America/Denver", 
-					dateStyle: "full", 
-					timeStyle: "short"
 				}
-				const now = new Date().toLocaleString("en-US", dateFormatOptions);
-				document.getElementById('last-update-time').innerHTML = now
+				setTime(tz)
+				setDate(tz)
+				setWeather()
 			}
+			function setTime(tz){
+				const time = new Date().toLocaleString("en-US", {...tz, timeStyle: "short"});
+				document.getElementById('time').innerHTML = time
+			}
+			function setDate(tz){
+				const date = new Date().toLocaleString("en-US", {...tz, dateStyle: "full"});
+				document.getElementById('date').innerHTML = date
+			}
+			function setWeather(){
+				!function(d,s,id){
+					var js,fjs=d.getElementsByTagName(s)[0];
+					if(!d.getElementById(id)){
+						js=d.createElement(s);
+						js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';
+						fjs.parentNode.insertBefore(js,fjs);
+					}
+				}(document,'script','weatherwidget-io-js');
+			}
+
 		</script>
 	</head>		
-	<body onload="setTime()">
+	<body onload="setup()">
 		<div id="container">
-				<div id="last-update-container">
-					It is:   
-					<span id="last-update-time"/>
-					<script>
-						function startTime() {
-							
-						}
-					</script>
+				<div id="date-time-container"> 
+					<div id="date"></div>
+					<br />
+					<div id="time"></div>
+
 				</div>
 			<hr />
 				<div id="weather-container">
 					<a class="weatherwidget-io" href="https://forecast7.com/en/39d74n105d07/80214/" data-label_1="You look great! 😉" data-days="5" data-theme="beige" data-basecolor="#fff" data-accent="" data-textcolor="#000" data-highcolor="#000" data-lowcolor="#000" data-suncolor="#000" data-mooncolor="#000" data-cloudcolor="#000" data-cloudfill="#000" data-raincolor="#000" data-snowcolor="#000" >You look great! 😉</a>
-					<script>
-					!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-					</script>
 				</div>
 				<div>
 					<iframe 

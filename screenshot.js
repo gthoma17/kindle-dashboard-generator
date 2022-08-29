@@ -13,6 +13,8 @@ const URL = "http://localhost:8000";
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
+  page.on('console', (msg) => console.log(msg.text());
+
   const page = await browser.newPage();
 
   /* Kindle 4 NT resolution */

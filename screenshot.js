@@ -23,11 +23,7 @@ const URL = "http://localhost:8000";
   /* Might want to use networkidle0 here, depending on the type of page */
   /* See https://github.com/puppeteer/puppeteer/blob/main/docs/api.md */
   console.log("navigating to ", URL)
-  await page.goto(URL, { waitUntil: "networkidle2" });
-
-  /* This is a bit silly. ¯\_(ツ)_/¯
-  Networkidle2 doesn't always seem to wait long enough. */
-  await sleep(10000);
+  await page.goto(URL, { waitUntil: "networkidle0" });
 
   await page.screenshot({ path: "dash.png" });
 

@@ -68,14 +68,14 @@ def transformEvent(event):
 
 def getEventsForCalendarInRange(calendarId, minTime, maxTime, service):
     events = getEvents(minTime.isoformat() + 'Z', calendarId, 10, service)
-
-    lastEventTime = datetime.datetime.fromisoformat(events[-1]['start']['dateTime'])
-    while datetime.datetime.fromisoformat(events[-1]['start']['dateTime']) < maxTime:
-        moreEvents = getEvents(lastEventTime.isoformat(), calendarId, 10, service)
-        events = events + moreEvents
-        lastEventTime = datetime.datetime.fromisoformat(events[-1]['start']['dateTime'])
-
     filteredEvents = [e for e in events if "dateTime" in e["start"]] # Filter out all day events
+
+    lastEventTime = datetime.datetime.fromisoformat(filteredEvents[-1]['start']['dateTime'])
+    while datetime.datetime.fromisoformat(filteredEvents[-1]['start']['dateTime']) < maxTime:
+        moreEvents = getEvents(lastEventTime.isoformat(), calendarId, 10, service)
+        moreFilteredEvents = [e for e in moreEvents if "dateTime" in e["start"]] # Filter out all day events
+        filteredEvents = filteredEvents + moreFilteredEvents
+        lastEventTime = datetime.datetime.fromisoformat(filteredEvents[-1]['start']['dateTime'])
 
     return [transformEvent(e) for e in filteredEvents]
 

@@ -75,7 +75,9 @@ def getEventsForCalendarInRange(calendarId, minTime, maxTime, service):
         events = events + moreEvents
         lastEventTime = datetime.datetime.fromisoformat(events[-1]['start']['dateTime'])
 
-    return [transformEvent(e) for e in events]
+    filteredEvents = [e for e in events if "dateTime" in e["start"]] # Filter out all day events
+
+    return [transformEvent(e) for e in filteredEvents]
 
 
 def main():

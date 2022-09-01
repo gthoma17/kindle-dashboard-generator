@@ -1,16 +1,14 @@
 {
-  "name": "react-gcal-api",
+  "name": "new-react-time-weather-agenda-dashboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@inovua/reactdatagrid-community": "^4.21.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
-    "dotenv": "^16.0.1",
-    "gapi-script": "^1.2.0",
-    "lodash": "^4.17.21",
-    "react": "^18.0.0-",
-    "react-dom": "^18.0.0",
-    "react-scripts": "^5.0.1",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
     "web-vitals": "^2.1.0"
   },
   "scripts": {

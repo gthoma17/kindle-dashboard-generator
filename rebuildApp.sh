@@ -16,7 +16,7 @@ function updateDashboard {
 	pushd react-time-weather-agenda-dashboard/
 		npm install
 		npm run build
-		cp -r build/* ../dashboard-screenshotter/dashboard
+		cp -r public/* ../dashboard-screenshotter/dashboard
 	popd
 }
 

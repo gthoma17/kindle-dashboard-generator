@@ -27,10 +27,16 @@ function updateDocker {
 }
 
 function main {
-	updateRepo
-	updateAgenda
-	updateDashboard
-	updateDocker
+	localIsBehind=0
+	git remote update && git status -uno | grep -q 'Your branch is behind' && localIsBehind=1
+	if [ $localIsBehind = 1 ]; then
+		touch .rebuild-lock
+		updateRepo
+		updateAgenda
+		updateDashboard
+		updateDocker
+		rm .rebuild-lock
+	fi
 }
 
 main

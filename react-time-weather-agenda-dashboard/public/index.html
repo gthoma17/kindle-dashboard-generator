@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style type="text/css">
+      body { 
+        margin: 0;
+        font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
+      }
+      #container {
+        display: flex;
+        flex-direction: column;
+        height: 800px;
+        width: 600px;
+        overflow: hidden;
+      }
+      #date-time-container {
+          padding: 5px;
+            text-align: center;
+            margin-top: 15px;
+      }
+      #date {
+        font-size: xxx-large;
+      }
+      #time {
+        font-size: xxx-large;
+      }
+      #weather-container {
+        min-height: 192px;
+        max-height: 192px;
+      }
+      #agenda {
+        display: grid;
+        grid-gap:2px;
+        grid-template-columns: 90px 255px 255px;
+      }
+      #agenda > div {
+        text-align: center;
+        display: flex;
+        align-items: center;
+          justify-content: space-around;
+          flex-direction: column;
+      }
+      .event-name {
+        font-size: x-large;
+        font-weight: bolder;
+      }
+      .event-time, .time-column {
+        font-family:courier, courier new, monospace;
+      }
+      .agenda-header {
+        font-weight: bold;
+        background-color: gainsboro;
+      }
+
+      .time-column {
+        margin: 0 0 0 auto;
+        padding-right: 5px;
+        grid-column: 1;
+        line-height: 1.75;
+      }
+      .reva-event {
+        grid-column: 2;
+        background-color: lightsteelblue;
+      }
+      .greg-event {
+        grid-column: 3;
+        background-color: lightgreen;
+      }
+      .shared-event {
+        grid-column-start: 2;
+        grid-column-end: 4;
+        background-color: lightpink;
+      }
+    </style>
+    <script>
+      function setup(){
+        const tz = {
+          timeZone: "America/Denver", 
+        }
+        setTime(tz)
+        setDate(tz)
+      }
+      function setTime(tz){
+        const time = new Date().toLocaleString("en-US", {...tz, timeStyle: "short"});
+        document.getElementById('time').innerHTML = time
+      }
+      function setDate(tz){
+        const date = new Date().toLocaleString("en-US", {...tz, dateStyle: "full"});
+        document.getElementById('date').innerHTML = date
+      }
+
+    </script>
+  </head>
+  <body  onload="setup()">
+    <div id="container">
+        <div id="date-time-container"> 
+          <div id="date"></div>
+          <br />
+          <div id="time"></div>
+
+        </div>
+      <hr />
+        <div id="weather-container">
+          <div id="ww_8caa7863a9c52" v='1.20' loc='id' a='{"t":"responsive","lang":"en","ids":["wl3359"],"cl_bkg":"#FFFFFF","cl_font":"#000000","cl_cloud":"#d4d4d4","cl_persp":"#2196F3","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","sl_tof":"5","sl_sot":"celsius","sl_ics":"one","font":"Arial","cl_odd":"#0000000a"}'>Weather Data Source: <a href="https://sharpweather.com/es/tiempo_lakewood/" id="ww_8caa7863a9c52_u" target="_blank">sharpweather.com</a></div><script async src="https://srv1.weatherwidget.org/js/?id=ww_8caa7863a9c52"></script>
+        </div>
+        <div id="agenda-container"></div>
+    </div>
+  </body>
+</html>

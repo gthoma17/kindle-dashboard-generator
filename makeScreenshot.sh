@@ -1,0 +1,1 @@
+docker run -v /varr/www/html:/output -t dash-builder

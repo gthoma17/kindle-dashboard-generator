@@ -2,9 +2,12 @@ import "./App.css";
 
 import agenda from './agenda';
 
+const numRows = 15;
+const stepSize = 30 * 60 * 1000; // thirty minutes
+const timeFormat = {timeStyle: "short", timeZone: "America/Denver"}
+
 function App() {  
-  const numRows = 15;
-  const stepSize = 30 * 60 * 1000; // thirty minutes
+  
   const now = new Date();
   const minMinutes = (Math.floor(now.getMinutes() / 30)) * 30;
 
@@ -29,7 +32,6 @@ function App() {
           gridRowStart: getStartRow(event),
           gridRowEnd: getEndRow(event)
         }
-        const timeFormat = {timeStyle: "short", timeZone: "America/Denver"}
         const start = new Date(event.start).toLocaleString("en-US", timeFormat)
         const end = new Date(event.end).toLocaleString("en-US", timeFormat)
         return (
@@ -67,7 +69,7 @@ function TimeColumn(numRows, minTime, stepSize, timeZone){
   return allTimes.map((d) => {
     return (
       <div className="time-column" key={`time-${d.getTime()}`}>
-        {d.toLocaleString("en-US", {timeZone, timeStyle: "short"})}
+        {d.toLocaleString("en-US", timeFormat)}
       </div>
     )
   })

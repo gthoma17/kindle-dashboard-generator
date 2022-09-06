@@ -14,7 +14,12 @@ function App() {
   const min = new Date(new Date(now.setMinutes(minMinutes)).setSeconds(0));
   const max = new Date(min.getTime() + (stepSize * numRows))
 
-  const eventIsInRange = (event) => (!(max < new Date(event.start) || min > new Date(event.end))) 
+  console.log("rendering agenda with these inputs", {min, max, agenda})
+
+  const eventStartsInRange = max > new Date(event.start) 
+  const eventEndsInRange = min < new Date(event.end)
+
+  const eventIsInRange = (event) => (eventStartsInRange || eventEndsInRange)
 
   const getStartRow = (event) => new Date(event.start) >= min
           ? Math.floor((new Date(event.start) - min) / stepSize) + 2
@@ -43,8 +48,6 @@ function App() {
     })
 
   }
-
-  console.log({min, max})
 
   return (
     <div id="agenda">

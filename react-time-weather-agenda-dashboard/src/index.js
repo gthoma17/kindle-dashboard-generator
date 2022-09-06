@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('agenda-container'));
+console.log("Rendering react app into index.html")
 root.render(
   <React.StrictMode>
     <App />

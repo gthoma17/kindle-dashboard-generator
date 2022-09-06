@@ -23,7 +23,7 @@ function updateDashboard {
 	pushd react-time-weather-agenda-dashboard/
 		npm install
 		npm run build
-		cp -r public/* ../dashboard-screenshotter/dashboard
+		cp -r build/* ../dashboard-screenshotter/dashboard
 	popd
 }
 
@@ -70,7 +70,7 @@ function main {
 		if [ $localIsBehind = 1 ]; then
 			rebuildApp
 
-		elif (( agendaAge <= $(gdate -d "now + $MAX_AGENDA_AGE" +%s) )); then
+		elif (( agendaAge <= $(gdate -d "now - $MAX_AGENDA_AGE" +%s) )); then
 			refreshAgenda
 
 		fi

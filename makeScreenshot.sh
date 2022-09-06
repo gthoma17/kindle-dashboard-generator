@@ -5,21 +5,21 @@ OUTPUT_FOLDER='/var/www/html'
 
 function updateRepo {
 	git pull
-	echo "👷 got these new commits"
+	echo "$(date)| 👷 got these new commits"
 	git --no-pager log --decorate=short --pretty=oneline main@{1}..main
 }
 
 function updateAgenda {
-	echo "👷‍♀️ getting a new agenda"
+	echo "$(date)| 👷‍♀️ getting a new agenda"
 	pushd python-gcal-agenda-getter/
-		pip install -r requirements.txt
+		pip install -q -r requirements.txt
 		python3 agenda-getter.py
 		cp agenda.json ../react-time-weather-agenda-dashboard/src
 	popd
 }
 
 function updateDashboard {
-	echo "👷‍♂️ rebuilding the dashboard with the new agenda"
+	echo "$(date)| 👷‍♂️ rebuilding the dashboard with the new agenda"
 	pushd react-time-weather-agenda-dashboard/
 		npm install
 		npm run build
@@ -28,14 +28,14 @@ function updateDashboard {
 }
 
 function updateDocker {
-	echo "🏗 rebuilding docker container with updated dashboard"
+	echo "$(date)| 🏗 rebuilding docker container with updated dashboard"
 	pushd dashboard-screenshotter
 		docker build -t dash-builder .
 	popd
 }
 
 function rebuildApp {
-	echo "👷‍♂️🚧👷 ~~~~~REBUILDING APP~~~~~ 👷‍♀️🚧👷"
+	echo "$(date)| 👷‍♂️🚧👷 ~~~~~REBUILDING APP~~~~~ 👷‍♀️🚧👷"
 	touch .rebuild-lock
 	updateRepo
 	updateAgenda
@@ -45,7 +45,7 @@ function rebuildApp {
 }
 
 function refreshAgenda {
-	echo "👷‍♂️📅 ~~~~~REFRESHING AGENDA~~~~~ 🗓👷"
+	echo "$(date)| 👷‍♂️📅 ~~~~~REFRESHING AGENDA~~~~~ 🗓👷"
 	touch .rebuild-lock
 	updateAgenda
 	updateDashboard
@@ -54,14 +54,14 @@ function refreshAgenda {
 }
 
 function updateScreenshot {
-	echo "📸 updating screenshot ~~~~~~~~~~~~~~"
+	echo "$(date)| 📸 ~~~~~~~~~~~~~~ updating screenshot ~~~~~~~~~~~~~~"
 	docker run -v $OUTPUT_FOLDER:/output -t dash-builder
 }
 
 
 function main {
 	if [ -f ".rebuild-lock" ]; then
-		echo "App is rebuilding, skipping this screenshot..."
+		echo "$(date)| App is rebuilding, skipping this screenshot..."
 	else
 		localIsBehind=0
 		agendaAge=$(date -r "react-time-weather-agenda-dashboard/src/agenda.json" +%s)

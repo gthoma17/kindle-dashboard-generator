@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MAX_AGENDA_AGE='12 hours'
-OUTPUT_FOLDER='/Users/greg/Downloads/kindle-dashboard-project/dashboard-maker'
+OUTPUT_FOLDER='/var/www/html'
 
 function updateRepo {
 	git pull
@@ -70,7 +70,7 @@ function main {
 		if [ $localIsBehind = 1 ]; then
 			rebuildApp
 
-		elif (( agendaAge <= $(gdate -d "now - $MAX_AGENDA_AGE" +%s) )); then
+		elif (( agendaAge <= $(date -d "now - $MAX_AGENDA_AGE" +%s) )); then
 			refreshAgenda
 
 		fi

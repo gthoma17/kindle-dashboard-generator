@@ -66,11 +66,10 @@ function updateScreenshot {
 
 function main {
 
-	if ! command -v gdate &> /dev/null # the date util on OSX isn't GNU date, which is what we needd
+	if command -v gdate &> /dev/null # the date util on OSX isn't GNU date, which is what we needd
 	then
-		GDATE=gdate
-	else 
-		GDATE=date
+		shopt -s expand_aliases
+		alias date=gdate
 	fi
 
 	cd $APP_FOLDER
@@ -78,13 +77,17 @@ function main {
 		echo "$(date)| App is rebuilding, skipping this screenshot..."
 	else
 		localIsBehind=0
-		agendaAge=$($GDATE -r "react-time-weather-agenda-dashboard/src/agenda.json" +%s)
+		agendaAge=$(date -r "react-time-weather-agenda-dashboard/src/agenda.json" +%s)
 		git remote update && git status -uno | grep -q 'Your branch is behind' && localIsBehind=1
 		
 		if [ $localIsBehind = 1 ]; then
 			rebuildApp
 
-		elif (( agendaAge <= $($GDATE -d "now - $MAX_AGENDA_AGE" +%s) )); then
+		elif [ -n "$FORCE_REBUILD" ]; then
+			echo "💢 REBUILDING BY FORCE!"
+			rebuildApp
+
+		elif (( agendaAge <= $(date -d "now - $MAX_AGENDA_AGE" +%s) )); then
 			refreshAgenda
 
 		fi

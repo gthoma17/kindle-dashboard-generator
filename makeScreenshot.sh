@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -e
+
+OUTPUT_FOLDER="${1:-$(pwd)}"
+MAX_AGENDA_AGE="${2:-12 hours}"
+
 APP_FOLDER=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 function updateRepo {

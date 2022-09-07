@@ -1,5 +1,7 @@
 #!/bin/bash
 
+APP_FOLDER=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 function updateRepo {
 	git pull
 	echo "$(date)| 👷 got these new commits"

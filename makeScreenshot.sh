@@ -1,8 +1,5 @@
 #!/bin/bash
 
-MAX_AGENDA_AGE='12 hours'
-OUTPUT_FOLDER='/var/www/html'
-
 function updateRepo {
 	git pull
 	echo "$(date)| 👷 got these new commits"
@@ -18,16 +15,15 @@ function updateAgenda {
 	popd
 }
 
-function updateDashboard {
+function rebuildDashboard {
 	echo "$(date)| 👷‍♂️ rebuilding the dashboard with the new agenda"
 	pushd react-time-weather-agenda-dashboard/
-		npm install
-		npm run build
-		cp -r build/* ../dashboard-screenshotter/dashboard
+		docker build -t react-time-weather-agenda-dashboard .
+		docker run -v $APP_FOLDER/dashboard-screenshotter/dashboard:/app/build -t react-time-weather-agenda-dashboard
 	popd
 }
 
-function updateDocker {
+function rebuildScreenshotter {
 	echo "$(date)| 🏗 rebuilding docker container with updated dashboard"
 	pushd dashboard-screenshotter
 		docker build -t dash-builder .
@@ -39,8 +35,8 @@ function rebuildApp {
 	touch .rebuild-lock
 	updateRepo
 	updateAgenda
-	updateDashboard
-	updateDocker
+	rebuildDashboard
+	rebuildScreenshotter
 	rm .rebuild-lock
 }
 
@@ -48,8 +44,8 @@ function refreshAgenda {
 	echo "$(date)| 👷‍♂️📅 ~~~~~REFRESHING AGENDA~~~~~ 🗓👷"
 	touch .rebuild-lock
 	updateAgenda
-	updateDashboard
-	updateDocker
+	rebuildDashboard
+	rebuildScreenshotter
 	rm .rebuild-lock
 }
 
@@ -60,6 +56,7 @@ function updateScreenshot {
 
 
 function main {
+	cd $APP_FOLDER
 	if [ -f ".rebuild-lock" ]; then
 		echo "$(date)| App is rebuilding, skipping this screenshot..."
 	else

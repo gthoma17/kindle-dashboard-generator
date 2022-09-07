@@ -1,5 +1,3 @@
-import "./App.css";
-
 import agenda from './agenda';
 
 const numRows = 15;
@@ -16,10 +14,7 @@ function App() {
 
   console.log("rendering agenda with these inputs", {min, max, agenda})
 
-  const eventStartsInRange = max > new Date(event.start) 
-  const eventEndsInRange = min < new Date(event.end)
-
-  const eventIsInRange = (event) => (eventStartsInRange || eventEndsInRange)
+  const eventIsInRange = (event) => (!(max < new Date(event.start)  || min > new Date(event.end)))
 
   const getStartRow = (event) => new Date(event.start) >= min
           ? Math.floor((new Date(event.start) - min) / stepSize) + 2

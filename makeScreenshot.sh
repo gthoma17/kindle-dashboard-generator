@@ -26,7 +26,10 @@ function rebuildDashboard {
 	echo "$(date)| 👷‍♂️ rebuilding the dashboard with the new agenda"
 	pushd react-time-weather-agenda-dashboard/
 		docker build -t react-time-weather-agenda-dashboard .
-		docker run -v $APP_FOLDER/dashboard-screenshotter/dashboard:/app/build -t react-time-weather-agenda-dashboard
+		docker run \
+			-v $APP_FOLDER/dashboard-screenshotter/dashboard:/app/build \
+			-v $APP_FOLDER/python-gcal-agenda-getter/:/app/src/agenda \
+			-t react-time-weather-agenda-dashboard
 	popd
 }
 
@@ -60,7 +63,6 @@ function updateScreenshot {
 	echo "$(date)| 📸 ~~~~~~~~~~~~~~ updating screenshot ~~~~~~~~~~~~~~"
 	docker run -v $OUTPUT_FOLDER:/output -t dash-builder
 }
-
 
 function main {
 	cd $APP_FOLDER

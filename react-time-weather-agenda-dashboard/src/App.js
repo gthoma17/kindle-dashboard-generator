@@ -1,4 +1,4 @@
-import agenda from './agenda';
+import agenda from './agenda/agenda';
 
 const numRows = 15;
 const stepSize = 30 * 60 * 1000; // thirty minutes

@@ -17,7 +17,7 @@ ADD package.json yarn.lock ./
 RUN yarn install --silent
 
 ADD public/index.html ./public
-ADD src/App.js src/agenda.json src/index.js ./src
+ADD src/App.js src/index.js ./src
 
 
 # Run everything after as non-privileged user

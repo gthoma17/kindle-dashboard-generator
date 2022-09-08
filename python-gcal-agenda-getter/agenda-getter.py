@@ -38,18 +38,18 @@ def handleAuth():
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    if os.path.exists('creds/token.json'):
+        creds = Credentials.from_authorized_user_file('creds/token.json', SCOPES)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
+                'creds/credentials.json', SCOPES)
             creds = flow.run_local_server(port=52531)
         # Save the credentials for the next run
-        with open('token.json', 'w') as token:
+        with open('creds/token.json', 'w') as token:
             token.write(creds.to_json())
     return creds
 
@@ -108,7 +108,7 @@ def main():
             "shared": sharedEvents
         }
 
-        with open('agenda.json', 'w') as f:
+        with open('/output/agenda.json', 'w') as f:
             json.dump(agenda, f)
 
     except HttpError as error:

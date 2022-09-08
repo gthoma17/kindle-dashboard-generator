@@ -26,3 +26,6 @@ react-time-weather-agenda-dashboard/build/
 react-time-weather-agenda-dashboard/node_modules/
 dash.png
 dashboard-screenshotter/dashboard
+agenda/
+creds/
+dashboard/

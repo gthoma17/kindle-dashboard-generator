@@ -4,9 +4,9 @@
 
 
 ## install dependancies
-* Install nginx	and pip
+* Install nginx
 	* `sudo apt update`
-	* `sudo apt install nginx python3-pip`
+	* `sudo apt install nginx`
 * Allow nginx through the firewall
 	* `sudo ufw allow 'Nginx Full'`
 * Install Docker (abridged from https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04)
@@ -20,6 +20,6 @@
 * Clone this repo
 	* `git clone https://github.com/gthoma17/kindle-dashboard-generator.git /app`
 * Create Google credentials
-	* Run `./makeScreenshot.sh` script once locally to create the files (Google will prompt for permission in a web browser)
+	* Locally, run `./makeScreenshot.sh` once to create the credential files (Google will prompt for permission in a web browser)
 	* Copy the files up to the droplet `scp python-gcal-agenda-getter/*.json root@143.198.149.83:/app/python-gcal-agenda-getter`
-* Setup cron to run the script every minute `echo "* * * * * /app/makeScreenshot.sh /var/www/html" | tee -a /var/spool/cron/root`
+* Setup cron to run the script every minute `crontab -e` `* * * * * bash /app/makeScreenshot.sh /var/www/html`

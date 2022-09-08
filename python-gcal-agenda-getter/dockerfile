@@ -1,0 +1,11 @@
+FROM python:3.9
+
+WORKDIR /app
+
+ADD requirements.txt ./
+
+RUN pip install -q -r requirements.txt
+
+ADD agenda-getter.py ./
+
+CMD ["python", "agenda-getter.py"]

@@ -13,24 +13,32 @@ function updateRepo {
 	git --no-pager log --decorate=short --pretty=oneline main@{1}..main|true
 }
 
-function updateAgenda {
-	echo "$(date)| 👷‍♀️ getting a new agenda"
+function rebuildAgendaGetter {
 	pushd python-gcal-agenda-getter/
-		pip install -q -r requirements.txt
-		python3 agenda-getter.py
-		cp agenda.json ../react-time-weather-agenda-dashboard/src
+		docker build -t python-gcal-agenda-getter .
 	popd
 }
 
+function updateAgenda {
+	echo "$(date)| 👷‍♀️ getting a new agenda"
+	docker run \
+		-v $APP_FOLDER/creds:/app/creds \
+		-v $APP_FOLDER/agenda:/output \
+		-t python-gcal-agenda-getter
+}
+
 function rebuildDashboard {
-	echo "$(date)| 👷‍♂️ rebuilding the dashboard with the new agenda"
 	pushd react-time-weather-agenda-dashboard/
 		docker build -t react-time-weather-agenda-dashboard .
-		docker run \
-			-v $APP_FOLDER/dashboard-screenshotter/dashboard:/app/build \
-			-v $APP_FOLDER/python-gcal-agenda-getter/:/app/src/agenda \
-			-t react-time-weather-agenda-dashboard
 	popd
+}
+
+function updateDashboard {
+	echo "$(date)| 👷‍♂️ rebuilding the dashboard with the new agenda"
+	docker run \
+		-v $APP_FOLDER/python-gcal-agenda-getter/:/app/src/agenda \
+		-v $APP_FOLDER/dashboard:/app/build \
+		-t react-time-weather-agenda-dashboard
 }
 
 function rebuildScreenshotter {
@@ -40,32 +48,38 @@ function rebuildScreenshotter {
 	popd
 }
 
+function updateScreenshot {
+	echo "$(date)| 📸 ~~~~~~~~~~~~~~ updating screenshot ~~~~~~~~~~~~~~"
+	docker run \
+		-v $OUTPUT_FOLDER:/output \
+		-v $APP_FOLDER/dashboard/:/app/dashboard \
+		-t dash-builder
+}
+
 function rebuildApp {
 	echo "$(date)| 👷‍♂️🚧👷 ~~~~~REBUILDING APP~~~~~ 👷‍♀️🚧👷"
 	touch .rebuild-lock
+
 	updateRepo
-	updateAgenda
+
 	rebuildDashboard
+	rebuildAgendaGetter
 	rebuildScreenshotter
-	rm .rebuild-lock
+
+	refreshAgenda
+
+	rm .rebuild-lock |true
 }
 
 function refreshAgenda {
 	echo "$(date)| 👷‍♂️📅 ~~~~~REFRESHING AGENDA~~~~~ 🗓👷"
 	touch .rebuild-lock
 	updateAgenda
-	rebuildDashboard
-	rebuildScreenshotter
+	updateDashboard
 	rm .rebuild-lock
 }
 
-function updateScreenshot {
-	echo "$(date)| 📸 ~~~~~~~~~~~~~~ updating screenshot ~~~~~~~~~~~~~~"
-	docker run -v $OUTPUT_FOLDER:/output -t dash-builder
-}
-
 function main {
-
 	if command -v gdate &> /dev/null # the date util on OSX isn't GNU date, which is what we needd
 	then
 		shopt -s expand_aliases
@@ -94,6 +108,7 @@ function main {
 
 		updateScreenshot
 	fi
-}
+}	
 
 main
+printf "Done @ $(date)--------------------------------------------------------------------------------\n"

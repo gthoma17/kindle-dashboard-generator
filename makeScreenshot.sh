@@ -27,7 +27,7 @@ function updateAgenda {
 		-t python-gcal-agenda-getter
 }
 
-function rebuildDashboard {
+function rebuildDashboardApp {
 	pushd react-time-weather-agenda-dashboard/
 		docker build -t react-time-weather-agenda-dashboard .
 	popd
@@ -62,7 +62,7 @@ function rebuildApp {
 
 	updateRepo
 
-	rebuildDashboard
+	rebuildDashboardApp
 	rebuildAgendaGetter
 	rebuildScreenshotter
 

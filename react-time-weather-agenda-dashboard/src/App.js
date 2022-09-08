@@ -12,21 +12,31 @@ function App() {
   const min = new Date(new Date(now.setMinutes(minMinutes)).setSeconds(0));
   const max = new Date(min.getTime() + (stepSize * numRows))
 
-  console.log("rendering agenda with these inputs", {min, max, agenda})
-
   const eventIsInRange = (event) => (!(max < new Date(event.start)  || min > new Date(event.end)))
 
-  const getStartRow = (event) => new Date(event.start) >= min
-          ? Math.floor((new Date(event.start) - min) / stepSize) + 2
-          : 2
+  const filteredAgenda = {
+    greg: agenda['greg'].filter(eventIsInRange),
+    reva: agenda['reva'].filter(eventIsInRange),
+    shared: agenda['shared'].filter(eventIsInRange)
+  }
 
-  const getEndRow = (event) => new Date(event.end) <= max
-          ? Math.floor((new Date(event.end) - min) / stepSize) + 2
-          : numRows
+
+  console.log("~~~ rendering agenda with these inputs ~~~", {min, max, agenda})
+  console.log("min: "+min.toLocaleString('en-US', {timeStyle: "short", dateStyle: "short", timeZone: "America/Denver"}))
+  console.log("max: "+max.toLocaleString('en-US', {timeStyle: "short", dateStyle: "short", timeZone: "America/Denver"}))
+  console.log("Reva Events: "+JSON.stringify(filteredAgenda['reva']))
+  console.log("Greg Events: "+JSON.stringify(filteredAgenda['greg']))
+  console.log("Sared Events: "+JSON.stringify(filteredAgenda['shared']))
 
   const EventColumn = (className, events) => {
+    const getStartRow = (event) => new Date(event.start) >= min
+      ? Math.floor((new Date(event.start) - min) / stepSize) + 2
+      : 2
+
+    const getEndRow = (event) => new Date(event.end) <= max
+      ? Math.floor((new Date(event.end) - min) / stepSize) + 2
+      : numRows
     return events
-      .filter(eventIsInRange)
       .map(event => {
         const style = {
           gridRowStart: getStartRow(event),
@@ -50,9 +60,9 @@ function App() {
       <div className="agenda-header" style={{gridColumn: 2, gridRow: 1}}><span>Reva</span></div>
       <div className="agenda-header" style={{gridColumn: 3, gridRow: 1}}><span>Greg</span></div>
       { TimeColumn(numRows, min, stepSize) }
-      { EventColumn('reva-event', agenda['reva'], 2) }
-      { EventColumn('greg-event', agenda['greg'], 3) }
-      { EventColumn('shared-event', agenda['shared'], 2, 4) }
+      { EventColumn('reva-event', filteredAgenda['reva'], 2) }
+      { EventColumn('greg-event', filteredAgenda['greg'], 3) }
+      { EventColumn('shared-event', filteredAgenda['shared'], 2, 4) }
     </div>
   );
 }

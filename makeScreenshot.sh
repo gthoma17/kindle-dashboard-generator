@@ -10,7 +10,7 @@ APP_FOLDER=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 function updateRepo {
 	git pull
 	echo "$(date)| 👷 got these new commits"
-	git --no-pager log --decorate=short --pretty=oneline main@{1}..main
+	git --no-pager log --decorate=short --pretty=oneline main@{1}..main|true
 }
 
 function updateAgenda {
@@ -77,7 +77,7 @@ function main {
 		echo "$(date)| App is rebuilding, skipping this screenshot..."
 	else
 		localIsBehind=0
-		agendaAge=$(date -r "react-time-weather-agenda-dashboard/src/agenda.json" +%s)
+		agendaAge=$(date -r "python-gcal-agenda-getter/agenda.json" +%s)
 		git remote update && git status -uno | grep -q 'Your branch is behind' && localIsBehind=1
 		
 		if [ $localIsBehind = 1 ]; then

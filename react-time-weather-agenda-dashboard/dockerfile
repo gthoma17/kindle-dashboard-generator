@@ -2,25 +2,11 @@ FROM node:16-buster-slim
 
 WORKDIR /app
 
-RUN yarn global add react-scripts@3.4.1
-
-RUN mkdir -p ./src ./node_modules ./public /home/builduser/
-
-RUN groupadd -r builduser \
-	&& useradd -r -g builduser -G sudo builduser \
-	&& chown -R builduser:builduser /home/builduser \
-	&& chown -R builduser:builduser /app/ \
-	&& chown -R builduser:builduser /app/node_modules 
-
 ADD package.json yarn.lock ./
 
 RUN yarn install --silent
 
-ADD public/index.html ./public
-ADD src/App.js src/index.js ./src
+ADD public/index.html ./public/
+ADD src/App.js src/index.js ./src/
 
-
-# Run everything after as non-privileged user
-USER builduser
-
-CMD ["npm", "run", "build"]
+CMD ["yarn", "build"]

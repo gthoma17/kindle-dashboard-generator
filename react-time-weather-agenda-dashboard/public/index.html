@@ -86,7 +86,7 @@
         document.getElementById('time').innerHTML = time
       }
       function setDate(tz){
-        const date = new Date().toLocaleString("en-US", {...tz, dateStyle: "full"});
+        const date = new Date().toLocaleString("en-US", {...tz, weekday: 'long', month: 'long', day: 'numeric'});
         document.getElementById('date').innerHTML = date
       }
 

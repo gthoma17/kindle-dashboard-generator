@@ -36,7 +36,7 @@ function rebuildDashboardApp {
 function updateDashboard {
 	echo "$(date)| 👷‍♂️ rebuilding the dashboard with the new agenda"
 	docker run \
-		-v $APP_FOLDER/python-gcal-agenda-getter/:/app/src/agenda \
+		-v $APP_FOLDER/agenda/:/app/src/agenda \
 		-v $APP_FOLDER/dashboard:/app/build \
 		-t react-time-weather-agenda-dashboard
 }
@@ -91,7 +91,7 @@ function main {
 		echo "$(date)| App is rebuilding, skipping this screenshot..."
 	else
 		localIsBehind=0
-		agendaAge=$(date -r "python-gcal-agenda-getter/agenda.json" +%s)
+		agendaAge=$(date -r "$APP_FOLDER/agenda/agenda.json" +%s)
 		git remote update && git status -uno | grep -q 'Your branch is behind' && localIsBehind=1
 		
 		if [ $localIsBehind = 1 ]; then

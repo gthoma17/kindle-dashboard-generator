@@ -6,7 +6,8 @@ ADD package.json yarn.lock ./
 
 RUN yarn install --silent
 
+ADD buildDashboardApp.sh ./
 ADD public/index.html ./public/
 ADD src/App.js src/index.js ./src/
 
-CMD ["yarn", "build"]
+CMD ["/bin/bash", "buildDashboardApp.sh"]

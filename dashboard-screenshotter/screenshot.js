@@ -6,7 +6,7 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const URL = "http://localhost:8000";
+const URL = process.env.SCREENSHOT_URL;
 
 (async () => {
   const browser = await puppeteer.launch({

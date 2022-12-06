@@ -1,9 +1,9 @@
 #!/bin/bash
 
-cd /app/dashboard
-python3 -m http.server &
+
 
 cd /app
-node screenshot.js
 
-cp dash.png /output
+SCREENSHOT_URL="${DASHBOARD_URL:-https://raw.githubusercontent.com/pascalw/kindle-dash/main/example/example.png}" node screenshot.js
+
+cp screenshot.png /output.dash.png

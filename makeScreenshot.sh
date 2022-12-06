@@ -7,51 +7,20 @@ DASHBOARD_URL="${1:-https://raw.githubusercontent.com/pascalw/kindle-dash/main/e
 
 APP_FOLDER=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-function updateRepo {
-	git pull
-	echo "$(date)| 👷 got these new commits"
-	git --no-pager log --decorate=short --pretty=oneline main@{1}..main|true
-}
-
-function rebuildScreenshotter {
-	echo "$(date)| 🏗 rebuilding docker container with updated dashboard"
-	pushd dashboard-screenshotter
-		docker build -t dash-builder .
-	popd
-}
 
 function updateScreenshot {
 	echo "$(date)| 📸 ~~~~~~~~~~~~~~ updating screenshot ~~~~~~~~~~~~~~"
-	docker run \
+	docker run -i --init --cap-add=SYS_ADMIN \
+		-e SCREENSHOT_URL=$DASHBOARD_URL \
 		-v $OUTPUT_FOLDER:/output \
-		-e DASHBOARD_URL=$DASHBOARD_URL \
-		-t dash-builder
-}
-
-function rebuildApp {
-	echo "$(date)| 👷‍♂️🚧👷 ~~~~~REBUILDING APP~~~~~ 👷‍♀️🚧👷"
-	touch .rebuild-lock
-
-	updateRepo
-
-	rebuildScreenshotter
-
-	updateScreenshot
-
-	rm .rebuild-lock |true
+		-v dashboard-screenshotter:/script \
+		--rm ghcr.io/puppeteer/puppeteer:latest \
+		sh -c 'node -e /script/screenshot.js && cp dash.png /output'
 }
 
 function main {
 	cd $APP_FOLDER
-	if [ -f ".rebuild-lock" ]; then
-		echo "$(date)| App is rebuilding, skipping this screenshot..."
-	else
-		if [ -n "$FORCE_REBUILD" ]; then
-			echo "💢 REBUILDING BY FORCE!"
-			rebuildApp
-		fi
-		updateScreenshot
-	fi
+	updateScreenshot
 }	
 
 main

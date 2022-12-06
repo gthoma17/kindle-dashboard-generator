@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
-const PNG = require("pngjs").PNG;
+// const PNG = require("pngjs").PNG;
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -25,14 +25,14 @@ const URL = process.env.SCREENSHOT_URL;
   console.log("navigating to ", URL)
   await page.goto(URL, { waitUntil: "networkidle0" });
 
-  await page.screenshot({ path: "dash.png" });
+  await page.screenshot({ path: "/output/dash.png" });
 
-  console.log("writing screenshot to ", "dash.png")
-  await fs.createReadStream("dash.png")
-    .pipe(new PNG({ colorType: 0 }))
-    .on("parsed", function () {
-      this.pack().pipe(fs.createWriteStream("dash.png"));
-    });
+  // console.log("writing screenshot to ", "dash.png")
+  // await fs.createReadStream("dash.png")
+  //   .pipe(new PNG({ colorType: 0 }))
+  //   .on("parsed", function () {
+  //     this.pack().pipe(fs.createWriteStream("dash.png"));
+  //   });
 
   browser.close();
 })();
